@@ -1,5 +1,6 @@
-package com.project.security;
+package com.project.security.config;
 
+import com.project.security.SecurityApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 

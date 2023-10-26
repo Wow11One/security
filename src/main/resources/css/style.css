@@ -1,0 +1,50 @@
+.login_form_wrapper {
+    border: cadetblue solid 3px;
+    border-radius: 8%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 300px;
+    margin: -150px 0 0 -250px;
+}
+
+.login_form_wrapper h2 {
+    margin-top: 30px;
+    margin-left: 35%;
+}
+
+.login_form {
+    margin-top: 5%;
+    background: white;
+}
+
+.login_form input {
+    margin-top: 30px;
+    margin-left: 50px;
+    background: white;
+
+}
+
+.login_form label {
+    margin-top: 30px;
+    margin-left: 50px;
+}
+
+.login_form input[type="submit"] {
+    width: 80px;
+    height: 40px;
+    margin-top: 30px;
+    margin-left: 40%;
+    left: 50%;
+    background: white;
+    border: cadetblue solid 1px;
+    border-radius: 8%;
+    color: cadetblue;
+    transition: 0.5s;
+}
+
+.login_form input[type="submit"]:hover {
+    background: cadetblue;
+    color: white;
+}
