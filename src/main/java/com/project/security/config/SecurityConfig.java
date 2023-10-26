@@ -1,17 +1,14 @@
 package com.project.security.config;
 
 import com.project.security.service.UserService;
+import com.project.security.utils.CustomAuthenticationEntryPoint;
 import com.project.security.utils.JwtAuthenticationFilter;
 import com.project.security.utils.PlainTextPasswordEncoder;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -21,7 +18,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -34,11 +30,12 @@ import java.io.IOException;
 public class SecurityConfig {
     private final UserService userService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                        .authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.sendError(401, accessDeniedException.getMessage());
                             response.setStatus(401);
@@ -50,8 +47,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize.requestMatchers("/user-info").authenticated()
                         .requestMatchers("/admin-info").hasAuthority("ADMIN")
-                        .requestMatchers("/login").permitAll()
-                        .anyRequest().authenticated());
+                        .requestMatchers("/api/login").permitAll());
 
         return http.build();
     }
