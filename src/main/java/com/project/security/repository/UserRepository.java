@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 @Getter
 public class UserRepository {
-    private final List<User> users;
+    private  List<User> users;
 
     public UserRepository() {
         users = new ArrayList<>();
@@ -23,4 +23,16 @@ public class UserRepository {
     public Optional<User> findByUsername(String username) {
         return users.stream().filter(user -> user.getName().equals(username)).findAny();
     }
+
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public void removeUserWithUsername(String username) {
+        users = users.stream()
+                .filter(user -> !user.getName().equalsIgnoreCase(username))
+                .toList();
+    }
+
+
 }

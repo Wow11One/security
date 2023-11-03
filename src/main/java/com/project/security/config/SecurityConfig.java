@@ -47,7 +47,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize.requestMatchers("/user-info").authenticated()
                         .requestMatchers("/admin-info").hasAuthority("ADMIN")
-                        .requestMatchers("/api/login").permitAll());
+                        .requestMatchers("/api/login").permitAll()
+                        .requestMatchers("/weather/**").permitAll());
 
         return http.build();
     }
